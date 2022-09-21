@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mainGraph"
+    app:startDestination="@id/transferContainerFragment">
+
+    <fragment
+        android:id="@+id/transferContainerFragment"
+        android:name="org.scopes.app.transfer.container.TransferContainerFragment" />
+
+</navigation>

@@ -1,0 +1,53 @@
+buildscript {
+    ext {
+        props = [
+                "appId"      : "org.scopes.app",
+                "minSdk"     : 24,
+                "targetSdk"  : 33,
+                "versionCode": 1,
+                "versionName": "1.0"
+        ]
+    }
+}
+
+plugins {
+    alias libs.plugins.android.application apply false
+    alias libs.plugins.kotlin.android apply false
+    alias libs.plugins.kotlin.kapt apply false
+    alias libs.plugins.kotlin.parcelize apply false
+    alias libs.plugins.navigation.safeargs apply false
+    alias libs.plugins.versions
+}
+
+dependencyUpdates.gradleReleaseChannel = "current"
+
+def nonStable = [
+        "androidx.appcompat"                   : "alpha",
+        "androidx.compose.ui"                  : "alpha",
+        "androidx.compose.material"            : "alpha",
+        "androidx.activity"                    : "alpha",
+        "androidx.fragment"                    : "alpha",
+        "androidx.core"                        : "alpha",
+        "com.google.android.material"          : "alpha",
+        "com.android.application"              : ["alpha", "beta", "rc"],
+        "org.jetbrains.kotlin.android"         : ["RC", "Beta"],
+        "org.jetbrains.kotlin.kapt"            : ["RC", "Beta"],
+        "org.jetbrains.kotlin.plugin.parcelize": ["RC", "Beta"],
+        "org.jetbrains.kotlin"                 : ["RC", "M1", "M2", "Beta"],
+        "org.jetbrains.kotlinx"                : "RC",
+        "org.jacoco"                           : "."
+]
+
+def isNonStable = { String group, String module, String version ->
+    return nonStable[group]?.any { version.contains(it) } ?: false
+}
+
+tasks.named("dependencyUpdates").configure {
+    rejectVersionIf {
+        isNonStable(it.candidate.group, it.candidate.module, it.candidate.version)
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

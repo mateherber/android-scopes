@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/transfer_graph"
+    app:startDestination="@id/firstTransferFragment">
+
+    <fragment
+        android:id="@+id/firstTransferFragment"
+        android:name="org.scopes.app.transfer.first.ui.FirstTransferFragment">
+        <action
+            android:id="@+id/action_firstTransferFragment_to_secondTransferFragment"
+            app:destination="@id/secondTransferFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/secondTransferFragment"
+        android:name="org.scopes.app.transfer.second.ui.SecondTransferFragment" />
+
+</navigation>
