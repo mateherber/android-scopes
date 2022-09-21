@@ -7,5 +7,5 @@ import org.scopes.app.transfer.second.ui.SecondTransferViewModel
 @Subcomponent
 @ScreenScope
 interface SecondComponent {
-    val viewModel: SecondTransferViewModel
+    val viewModel: SecondTransferViewModel.Factory
 }

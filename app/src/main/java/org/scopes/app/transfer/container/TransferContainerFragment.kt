@@ -7,14 +7,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import org.scopes.app.R
 import org.scopes.app.common.di.ComponentProvider
+import org.scopes.app.common.di.SavedStateHandleHolderViewModel
 import org.scopes.app.common.di.scopedComponent
 import org.scopes.app.common.findComponent
+import org.scopes.app.common.lazyViewModel
 import org.scopes.app.transfer.container.di.TransferComponent
 import org.scopes.app.transfer.container.di.TransferComponentFactory
 
 class TransferContainerFragment : Fragment(), ComponentProvider<TransferComponent> {
     override val component: TransferComponent by scopedComponent {
-        findComponent<TransferComponentFactory>().transferComponent
+        findComponent<TransferComponentFactory>().transferComponent.create(stateHandleHolder.savedStateHandle)
+    }
+
+    private val stateHandleHolder by lazyViewModel { stateHandle ->
+        SavedStateHandleHolderViewModel(stateHandle)
     }
 
     override fun onCreateView(

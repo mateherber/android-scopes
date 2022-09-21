@@ -7,5 +7,5 @@ import org.scopes.app.transfer.first.ui.FirstTransferViewModel
 @Subcomponent
 @ScreenScope
 interface FirstComponent {
-    val viewModel: FirstTransferViewModel
+    val viewModel: FirstTransferViewModel.Factory
 }

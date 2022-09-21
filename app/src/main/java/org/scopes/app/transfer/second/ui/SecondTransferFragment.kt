@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import org.scopes.app.common.composeView
 import org.scopes.app.common.di.scopedComponent
 import org.scopes.app.common.findComponent
-import org.scopes.app.common.viewModels
+import org.scopes.app.common.lazyViewModel
 import org.scopes.app.transfer.second.di.SecondComponent
 import org.scopes.app.transfer.second.di.SecondComponentFactory
 
@@ -17,7 +17,9 @@ class SecondTransferFragment : Fragment() {
         findComponent<SecondComponentFactory>().secondComponent
     }
 
-    private val viewModel: SecondTransferViewModel by viewModels { component.viewModel }
+    private val viewModel: SecondTransferViewModel by lazyViewModel { stateHandle ->
+        component.viewModel.create(stateHandle)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -4,11 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import org.scopes.app.common.di.ComponentProvider
+import org.scopes.app.common.di.Factory
 
 inline fun Fragment.composeView(crossinline block: @Composable () -> Unit): ComposeView {
     return ComposeView(requireActivity()).apply {
@@ -17,9 +17,6 @@ inline fun Fragment.composeView(crossinline block: @Composable () -> Unit): Comp
         }
     }
 }
-
-val Fragment.viewLifecycleScope: LifecycleCoroutineScope
-    get() = viewLifecycleOwner.lifecycleScope
 
 inline fun <T> Fragment.findParent(selector: Any.() -> T?): T {
     var currentFragment: Fragment? = this
@@ -49,4 +46,20 @@ inline fun <reified T : ViewModel> Fragment.viewModels(noinline viewModelProvide
                 viewModelProvider() as VM
         }
     }
+}
+
+inline fun <reified T : ViewModel> Fragment.lazyViewModel(
+    noinline create: (stateHandle: SavedStateHandle) -> T
+) = viewModels<T> {
+    Factory(this, create)
+}
+
+inline fun <T> SavedStateHandle.getOrSet(key: String, block: () -> T): T {
+    val value = get<T>(key)
+    if (value != null) {
+        return value
+    }
+    val newValue = block()
+    set(key, newValue)
+    return newValue
 }

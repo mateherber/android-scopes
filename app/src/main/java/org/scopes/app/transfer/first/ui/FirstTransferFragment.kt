@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import org.scopes.app.common.composeView
 import org.scopes.app.common.di.scopedComponent
 import org.scopes.app.common.findComponent
-import org.scopes.app.common.viewModels
+import org.scopes.app.common.lazyViewModel
 import org.scopes.app.transfer.first.di.FirstComponent
 import org.scopes.app.transfer.first.di.FirstComponentFactory
 
@@ -23,7 +23,9 @@ class FirstTransferFragment : Fragment() {
         findComponent<FirstComponentFactory>().firstComponent
     }
 
-    private val viewModel: FirstTransferViewModel by viewModels { component.viewModel }
+    private val viewModel: FirstTransferViewModel by lazyViewModel { stateHandle ->
+        component.viewModel.create(stateHandle)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
