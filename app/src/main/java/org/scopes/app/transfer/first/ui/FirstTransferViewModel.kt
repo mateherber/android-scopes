@@ -7,10 +7,8 @@ import kotlin.random.Random
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import org.scopes.app.common.di.ScreenScope
 import org.scopes.app.transfer.container.domain.TransferDraft
 
-@ScreenScope
 class FirstTransferViewModel @Inject constructor(
     private val transferDraft: TransferDraft
 ) : ViewModel() {

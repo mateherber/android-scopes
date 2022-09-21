@@ -1,11 +1,9 @@
 package org.scopes.app.application.di
 
 import dagger.Component
-import dagger.android.AndroidInjectionModule
-import org.scopes.app.application.ScopesApplication
-import org.scopes.app.host.di.MainModule
+import javax.inject.Singleton
+import org.scopes.app.host.di.MainComponentFactory
 
-@Component(modules = [AndroidInjectionModule::class, MainModule::class, BindingModule::class])
-interface ApplicationComponent {
-    fun inject(application: ScopesApplication)
-}
+@Component
+@Singleton
+interface ApplicationComponent : MainComponentFactory

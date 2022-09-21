@@ -52,7 +52,6 @@ dependencies {
     debugImplementation libs.compose.tooling
     implementation libs.core.ktx
     implementation libs.dagger
-    implementation libs.dagger.android
     implementation libs.fragment
     implementation libs.material
     implementation libs.navigation.fragment
@@ -61,5 +60,4 @@ dependencies {
     implementation libs.bundles.lifecycle
 
     kapt libs.dagger.compiler
-    kapt libs.dagger.android.processor
 }

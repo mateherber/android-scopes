@@ -4,23 +4,23 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import com.google.android.material.color.DynamicColors
-import dagger.android.AndroidInjection
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasAndroidInjector
-import javax.inject.Inject
 import org.scopes.app.R
+import org.scopes.app.application.di.ApplicationComponent
+import org.scopes.app.common.di.ComponentProvider
+import org.scopes.app.common.di.scopedComponent
+import org.scopes.app.host.di.MainComponent
+import org.scopes.app.host.di.MainComponentFactory
 
-class MainActivity : AppCompatActivity(), HasAndroidInjector {
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
+class MainActivity : AppCompatActivity(), ComponentProvider<MainComponent> {
+    @Suppress("UNCHECKED_CAST")
+    override val component: MainComponent by scopedComponent {
+        ((application as ComponentProvider<ApplicationComponent>).component as MainComponentFactory).mainComponent
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
         DynamicColors.applyToActivityIfAvailable(this)
         setContentView(R.layout.activity_main)
     }
-
-    override fun androidInjector() = dispatchingAndroidInjector
 }
