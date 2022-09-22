@@ -1,5 +1,5 @@
 package org.scopes.app.common.di
 
-interface ComponentProvider<T : Any> {
-    val component: T
+interface ComponentProvider {
+    val component: Any
 }

@@ -1,12 +1,14 @@
 package org.scopes.app.common
 
+import androidx.annotation.IdRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import org.scopes.app.common.di.ComponentProvider
 import org.scopes.app.common.di.Factory
 
@@ -35,17 +37,7 @@ inline fun <T> Fragment.findParent(selector: Any.() -> T?): T {
 }
 
 inline fun <reified T> Fragment.findComponent(): T = findParent<T> {
-    (this as? ComponentProvider<*>)?.component as? T
-}
-
-@Suppress("UNCHECKED_CAST")
-inline fun <reified T : ViewModel> Fragment.viewModels(noinline viewModelProvider: () -> T): Lazy<T> {
-    return viewModels {
-        object : ViewModelProvider.Factory {
-            override fun <VM : ViewModel> create(modelClass: Class<VM>): VM =
-                viewModelProvider() as VM
-        }
-    }
+    (this as? ComponentProvider)?.component as? T
 }
 
 inline fun <reified T : ViewModel> Fragment.lazyViewModel(
@@ -63,3 +55,11 @@ inline fun <T> SavedStateHandle.getOrSet(key: String, block: () -> T): T {
     set(key, newValue)
     return newValue
 }
+
+@get:IdRes
+val NavDestination.graphId: Int?
+    get() = parent?.id
+
+@get:IdRes
+val NavController.graphId: Int?
+    get() = currentDestination?.graphId
